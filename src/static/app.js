@@ -3,6 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const activitySelect = document.getElementById("activity");
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
+  const roleSelect = document.getElementById("role");
+  const roleNotice = document.getElementById("role-notice");
+
+  function getRoleHeader() {
+    return roleSelect ? roleSelect.value : "guest";
+  }
 
   // Function to fetch activities from API
   async function fetchActivities() {
@@ -80,6 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
         )}/unregister?email=${encodeURIComponent(email)}`,
         {
           method: "DELETE",
+          headers: {
+            "X-Role": getRoleHeader(),
+          },
         }
       );
 
@@ -124,6 +133,9 @@ document.addEventListener("DOMContentLoaded", () => {
         )}/signup?email=${encodeURIComponent(email)}`,
         {
           method: "POST",
+          headers: {
+            "X-Role": getRoleHeader(),
+          },
         }
       );
 
@@ -154,6 +166,17 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error signing up:", error);
     }
   });
+
+  if (roleSelect && roleNotice) {
+    roleSelect.addEventListener("change", () => {
+      const role = roleSelect.value;
+      const message =
+        role === "guest"
+          ? "Guests can view activities. Staff and admins can manage participation."
+          : `Using ${role} access for management actions.`;
+      roleNotice.textContent = message;
+    });
+  }
 
   // Initialize app
   fetchActivities();

@@ -23,6 +23,15 @@
 
       <section id="signup-container">
         <h3>Sign Up for an Activity</h3>
+        <div class="form-group">
+          <label for="role">Access Role:</label>
+          <select id="role">
+            <option value="guest">Guest (view only)</option>
+            <option value="staff">Staff</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <p id="role-notice" class="role-help">Guests can view activities. Staff and admins can manage participation.</p>
         <form id="signup-form">
           <div class="form-group">
             <label for="email">Student Email:</label>
